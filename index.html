@@ -1,0 +1,883 @@
+<!DOCTYPE html><html lang="en" data-scrapbook-source="https://bridge-zksync.github.io/" data-scrapbook-create="20260219151718909" data-scrapbook-title="zkSync Bridge — How to Bridge to zkSync Era, Fees, Wallet Setup (RPC/Chain ID), Finality &amp; Troubleshooting (2026)"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+
+
+   <!-- SEO / EEAT Meta Tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>zkSync Bridge — How to Bridge to zkSync Era, Fees, Wallet Setup (RPC/Chain ID), Finality &amp; Troubleshooting (2026)</title>
+  <meta name="description" content="zkSync Bridge guide (2026): what the official bridge is, how deposits/withdrawals work, fees &amp; gas, wallet setup (RPC/chain ID), explorers, finality/withdrawal delay, best practices, risks, and troubleshooting. Includes runbook, KPIs, and a deep FAQ.">
+  <meta name="author" content="Crypto Finance Experts">
+  <link rel="canonical" href="https://zksync-bridge.example.com/">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="zklogo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://zksync-bridge.example.com/">
+  <meta property="og:title" content="zkSync Bridge — Fees, Wallet Setup, Finality &amp; Troubleshooting (2026)">
+  <meta property="og:description" content="Practical zkSync Bridge guide: bridge safely, fees, wallet setup, finality/withdrawals, explorers, and troubleshooting.">
+  <meta property="og:image" content="zksync.png">
+
+  <!-- Twitter Card -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://zksync-bridge.example.com/">
+  <meta property="twitter:title" content="zkSync Bridge — How to Bridge, Fees, Wallet Setup, Finality (2026)">
+  <meta property="twitter:description" content="Deep zkSync Bridge guide: deposit vs withdraw, finality timing, RPC/chain ID, explorers, safety checklist, and FAQs.">
+  <meta property="twitter:image" content="zksync.png">
+
+  <style>
+    :root{
+      /* zkSync-ish electric blue theme */
+      --primary:#2563FF;        /* electric blue */
+      --primary-600:#1D4BFF;
+      --primary-700:#1437D6;
+      --accent:#22D3EE;         /* cyan */
+
+      --ink:#071021;            /* deep navy */
+      --muted:#475569;          /* slate-600 */
+      --muted-2:#64748B;        /* slate-500 */
+
+      --bg:#F6FAFF;             /* cool white */
+      --panel:#FFFFFF;
+      --panel-2:#F8FBFF;
+      --line:rgba(7,16,33,.10);
+
+      --ok:#16A34A;
+      --warn:#F59E0B;
+      --error:#DC2626;
+
+      --shadow: 0 18px 44px rgba(7,16,33,.12);
+      --radius:14px;
+      --radius-lg:22px;
+
+      --gap:1.25rem;
+      --gap-lg:2rem;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+      color:var(--muted);
+      background:
+        radial-gradient(900px 600px at 12% 0%, rgba(37,99,255,.14), transparent 60%),
+        radial-gradient(900px 600px at 90% 10%, rgba(34,211,238,.12), transparent 60%),
+        radial-gradient(900px 600px at 55% 85%, rgba(20,55,214,.10), transparent 60%),
+        linear-gradient(180deg, #FFFFFF 0%, var(--bg) 45%, #FFFFFF 100%);
+      line-height:1.65;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    a{color:var(--primary); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    img{max-width:100%; height:auto; display:block}
+    .container{max-width:1100px; margin:0 auto; padding:0 1.25rem}
+
+    h1,h2,h3,h4{color:var(--ink); line-height:1.25; margin:0 0 .6rem}
+    h1{
+      font-size:clamp(2rem,4.5vw,3.1rem);
+      font-weight:950;
+      letter-spacing:.2px;
+    }
+    h2{
+      font-size:clamp(1.35rem,2.8vw,2rem);
+      margin-top:2.2rem;
+      padding-top:.6rem;
+      border-top:1px solid var(--line);
+    }
+    h3{
+      font-size:clamp(1.05rem,2.2vw,1.3rem);
+      color:#0B2A6B;
+      margin-top:1rem;
+    }
+
+    p,li,td,th{font-size:1rem}
+    .lead{font-size:1.125rem; color:#0B1220}
+    .muted{color:var(--muted)}
+    .muted-2{color:var(--muted-2)}
+
+    header.hero{
+      padding: clamp(2rem,6vw,4rem) 0;
+      background:
+        radial-gradient(700px 420px at 18% 10%, rgba(37,99,255,.18), transparent 60%),
+        radial-gradient(700px 420px at 90% 20%, rgba(34,211,238,.12), transparent 60%),
+        linear-gradient(180deg, rgba(7,16,33,.04), rgba(7,16,33,0) 55%);
+      border-bottom:1px solid var(--line);
+    }
+
+    .hero-grid{
+      display:grid;
+      gap:var(--gap-lg);
+      grid-template-columns:1fr;
+      align-items:stretch;
+    }
+
+    .hero-card{
+      background: linear-gradient(180deg, rgba(255,255,255,.94), rgba(248,251,255,.88));
+      border:1px solid var(--line);
+      border-radius:var(--radius-lg);
+      padding:clamp(1rem,3vw,1.75rem);
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .brand-row{
+      display:flex; align-items:center; gap:.9rem;
+      margin-bottom:.75rem
+    }
+    .brand-logo{
+      width:54px;
+      height:54px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(37,99,255,.06);
+      padding:.35rem;
+      object-fit:contain;
+      box-shadow: 0 10px 22px rgba(7,16,33,.10);
+      flex:0 0 auto;
+    }
+
+    /* SINGLE CTA — centered, big, attractive */
+    .cta-center{
+      display:flex;
+      justify-content:center;
+      margin-top: 1.1rem;
+    }
+    .cta{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.65rem;
+      background: linear-gradient(180deg, var(--primary), var(--primary-700));
+      color:white;
+      padding:1.10rem 2.45rem;
+      border-radius:16px;
+      font-weight:950;
+      letter-spacing:.2px;
+      font-size:1.12rem;
+      border:1px solid rgba(255,255,255,.28);
+      box-shadow:
+        0 18px 44px rgba(37,99,255,.22),
+        0 0 0 6px rgba(37,99,255,.10);
+      transform: translateZ(0);
+      transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+      text-decoration:none;
+    }
+    .cta:hover{
+      text-decoration:none;
+      filter:brightness(1.05);
+      transform: translateY(-2px);
+      box-shadow:
+        0 22px 52px rgba(37,99,255,.26),
+        0 0 0 8px rgba(37,99,255,.12);
+    }
+    .cta:active{transform: translateY(0px); filter:brightness(.98);}
+
+    .note{
+      border-left:3px solid var(--primary);
+      padding:.85rem 1rem;
+      background:rgba(37,99,255,.06);
+      border-radius:12px;
+      color:#0B1220;
+      margin-top:1rem;
+    }
+
+    /* HERO IMAGE — framed, clean */
+    .hero-media{
+      position:relative;
+      border-radius:var(--radius-lg);
+      border:1px solid var(--line);
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      background:rgba(255,255,255,.75);
+    }
+    .hero-media::before{
+      content:"";
+      display:block;
+      padding-top:56.25%; /* 16:9 */
+    }
+    .hero-img{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    section.step-guide{padding: clamp(2rem,6vw,3.5rem) 0}
+    .steps{display:grid; gap:var(--gap); grid-template-columns:1fr;}
+    .step{
+      background:linear-gradient(180deg, rgba(255,255,255,.94), rgba(248,251,255,.88));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:1.2rem;
+      box-shadow: 0 12px 26px rgba(7,16,33,.10);
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
+    .step:hover{transform:translateY(-4px); box-shadow:0 18px 34px rgba(7,16,33,.14)}
+    .step .icon{
+      width:54px;height:54px;border-radius:50%;
+      display:inline-grid; place-items:center;
+      background:rgba(37,99,255,.10);
+      margin-bottom:.6rem;
+      color:#0B2A6B;
+      font-weight:950;
+      border:1px solid rgba(7,16,33,.10);
+    }
+
+    main .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.94), rgba(248,251,255,.88));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:1.25rem;
+      margin:1.25rem 0;
+      box-shadow: 0 12px 26px rgba(7,16,33,.10);
+    }
+
+    .grid-2{display:grid; gap:var(--gap); grid-template-columns:1fr;}
+    .toc{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(37,99,255,.06), rgba(255,255,255,.75));
+      border-radius:var(--radius);
+      padding:1rem;
+    }
+    .toc strong{color:#0B1220}
+    .toc ul{margin:.5rem 0 0; padding-left:1.1rem}
+    .toc li{margin:.25rem 0}
+    .toc a{font-weight:950}
+
+    table{width:100%; border-collapse:collapse; overflow:hidden; border-radius:12px}
+    th,td{padding:.9rem; border-bottom:1px solid var(--line)}
+    th{
+      background:rgba(37,99,255,.08);
+      color:#0B1220;
+      text-align:left
+    }
+    tr.highlight{background:rgba(37,99,255,.05)}
+    tr:hover{background:rgba(7,16,33,.02)}
+
+    code, .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+    .inline-code{
+      display:inline-block;
+      padding:.15rem .35rem;
+      border-radius:8px;
+      border:1px solid var(--line);
+      background:rgba(7,16,33,.03);
+      color:#0B1220;
+      font-weight:900;
+    }
+
+    .callout-grid{
+      display:grid;
+      gap:var(--gap);
+      grid-template-columns:1fr;
+      margin-top: .75rem;
+    }
+    .mini{
+      background:rgba(7,16,33,.02);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:1rem;
+    }
+    .kpi-badges{
+      display:flex; flex-wrap:wrap; gap:.55rem; margin-top:.6rem;
+    }
+    .kpi-badges span{
+      border:1px solid rgba(37,99,255,.20);
+      background:rgba(37,99,255,.06);
+      color:#0B1220;
+      padding:.3rem .55rem;
+      border-radius:999px;
+      font-weight:950;
+      font-size:.9rem;
+    }
+
+    /* SECONDARY IMAGE — do NOT stretch/crop */
+    .content-media{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-top:14px;
+
+      border-radius:var(--radius);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      background:rgba(255,255,255,.75);
+      padding:12px;
+    }
+    .content-img{
+      width:100%;
+      height:auto;
+      max-height:420px;
+      object-fit:contain; /* no stretching/cropping */
+      display:block;
+    }
+
+    .eeat{
+      background:linear-gradient(180deg, rgba(37,99,255,.06), rgba(255,255,255,.75));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:1.25rem;
+      box-shadow: 0 12px 26px rgba(7,16,33,.10);
+    }
+
+    .faq-item{border-bottom:1px solid var(--line); padding: .9rem 0}
+    .faq-button{
+      all:unset; display:flex; justify-content:space-between; align-items:center;
+      width:100%; cursor:pointer; padding:.3rem 0;
+    }
+    .faq-button:focus-visible{outline:2px solid var(--primary)}
+    .faq-button h3{margin:0; font-weight:950}
+    .faq-content{max-height:0; overflow:hidden; transition:max-height .25s ease}
+    .faq-content.open{padding-top:.6rem}
+    .faq-plus{font-weight:950; color:#0B2A6B}
+
+    @media (min-width: 860px){
+      .steps{grid-template-columns: repeat(4, 1fr)}
+      .grid-2{grid-template-columns: 1fr 1fr}
+      .callout-grid{grid-template-columns: 1fr 1fr}
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="hero" role="banner">
+  <div class="container hero-grid">
+    <div class="hero-card" aria-label="Intro">
+      <div class="brand-row">
+        <img class="brand-logo" src="zklogo.png" alt="zkSync logo">
+        <div>
+          <div class="muted" style="font-weight:950; letter-spacing:.2px;">Operational Guide</div>
+          <div class="muted-2" style="font-size:.95rem;">Official Bridge • Fees • Wallet Setup • Finality • Troubleshooting</div>
+        </div>
+      </div>
+
+      <h1> hookup - Official zkSync Bridge</h1>
+      <h1>zkSync Bridge</h1>
+      <p class="lead">
+        This is a practical, security-first guide to the <strong>zkSync Bridge</strong>: how to bridge funds between Ethereum and
+        <strong>zkSync Era</strong>, what you pay (fees + gas), how to set up your wallet (RPC / Chain ID),
+        how long withdrawals can take (finality / withdrawal delay), and how to troubleshoot the most common
+        “missing funds / stuck transfer” scenarios.
+      </p>
+
+      <!-- ONE CENTERED BUTTON -->
+      <div class="cta-center">
+        <a href="https://portal.zksync.io/bridge/" class="cta" aria-label="Open zkSync Bridge">
+          Open zkSync Bridge
+        </a>
+      </div>
+
+      <div class="note">
+        <strong>Quick rule:</strong> bridge a small test amount first. Most losses come from fake sites,
+        wrong network selection, or signing approvals you don’t understand.
+      </div>
+    </div>
+
+    <div class="hero-media" aria-hidden="true">
+      <img class="hero-img" src="zksync.png" alt="zkSync Bridge hero image">
+    </div>
+  </div>
+</header>
+
+<section class="step-guide" aria-labelledby="how-works">
+  <div class="container">
+    <h2 id="how-works">zkSync Bridge Workflow: Add Network → Deposit → Use → Verify → Withdraw</h2>
+    <div class="steps" role="list">
+      <article class="step" role="listitem">
+        <div class="icon">①</div>
+        <h3>Add zkSync Era network settings (RPC + Chain ID)</h3>
+        <p>
+          Configure your wallet using official zkSync Era parameters. This prevents wrong-network transfers and explorer confusion.
+        </p>
+      </article>
+      <article class="step" role="listitem">
+        <div class="icon">②</div>
+        <h3>Deposit via the official zkSync Bridge (test first)</h3>
+        <p>
+          Use the official bridge UI, confirm the destination is zkSync Era, and send a small test deposit before scaling up.
+        </p>
+      </article>
+      <article class="step" role="listitem">
+        <div class="icon">③</div>
+        <h3>Verify status with explorers (source of truth)</h3>
+        <p>
+          Wallet and bridge UIs can lag. Use a zkSync explorer to confirm deposits, token contracts, and transaction success.
+        </p>
+      </article>
+      <article class="step" role="listitem">
+        <div class="icon">④</div>
+        <h3>Withdraw safely (finality / withdrawal delay matters)</h3>
+        <p>
+          L2 → L1 withdrawals can require waiting for finality/processing. Keep ETH for L1 gas and plan for time delays.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<main class="container" role="main">
+
+  <section class="card toc" aria-label="Table of Contents">
+    <strong>On this page (zkSync Bridge):</strong>
+    <ul>
+      <li><a href="#overview">zkSync Bridge overview (what it is &amp; who it’s for)</a></li>
+      <li><a href="#deposit-withdraw">zkSync Bridge deposits vs withdrawals (what’s different)</a></li>
+      <li><a href="#fees">zkSync Bridge fees: what you pay (and what you forget)</a></li>
+      <li><a href="#wallet">zkSync Bridge wallet setup: RPC, chain ID, explorer</a></li>
+      <li><a href="#finality">zkSync Bridge finality &amp; withdrawal delay: how long does it take?</a></li>
+      <li><a href="#verify">zkSync Bridge verification: explorers and checks</a></li>
+      <li><a href="#best-practices">zkSync Bridge best practices: security checklist</a></li>
+      <li><a href="#troubleshooting">zkSync Bridge troubleshooting</a></li>
+      <li><a href="#eeat">zkSync Bridge authoritative sources (EEAT)</a></li>
+      <li><a href="#faq">zkSync Bridge FAQ (deep)</a></li>
+    </ul>
+  </section>
+
+  <section class="card" id="overview">
+    <h2>zkSync Bridge Overview: What the zkSync Bridge Is (and Why It Matters)</h2>
+    <p>
+      The <strong>zkSync Bridge</strong> is the official bridge for moving assets between Ethereum and <strong>zkSync Era</strong>.
+      It is the “default safe path” because it’s maintained by the zkSync ecosystem and documented in official resources.
+      Use it when you want a clear verification trail (tx hash → explorer → balance) and a predictable support flow.
+    </p>
+
+    <div class="callout-grid" role="list">
+      <div class="mini" role="listitem">
+        <h3>Best use-case for the zkSync Bridge</h3>
+        <p class="muted">
+          You want the official on-ramp to zkSync Era for apps, swaps, or simple transfers with minimal third-party risk.
+        </p>
+        <div class="kpi-badges">
+          <span>Official route</span><span>Explorer-verifiable</span><span>Operational clarity</span>
+        </div>
+      </div>
+
+      <div class="mini" role="listitem">
+        <h3>zkSync Bridge trade-offs</h3>
+        <p class="muted">
+          You still pay L1 gas, and withdrawals may take time (finality/processing). Always plan the exit path before depositing.
+        </p>
+        <div class="kpi-badges">
+          <span>L1 gas costs</span><span>Withdrawal timing</span><span>Plan exits</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>Operational truth:</strong> if you can’t verify it on an explorer, don’t assume it happened.
+      “Explorer-first” eliminates most bridging panic.
+    </div>
+
+    <div class="content-media">
+      <img class="content-img" src="zksync2.png" alt="zkSync Bridge secondary image">
+    </div>
+  </section>
+
+  <section class="card" id="deposit-withdraw">
+    <h2>zkSync Bridge Deposits vs Withdrawals: What’s Different (and Why Users Get Stuck)</h2>
+    <p>
+      The <strong>zkSync Bridge</strong> has two main directions:
+      <strong>Ethereum → zkSync Era (deposit)</strong> and <strong>zkSync Era → Ethereum (withdraw)</strong>.
+      Deposits typically feel faster because you’re moving into L2; withdrawals require L2 finality and L1 execution steps.
+    </p>
+
+    <table aria-label="Deposits vs withdrawals on zkSync Bridge">
+      <thead>
+        <tr>
+          <th>Direction</th>
+          <th>What happens</th>
+          <th>Common user mistake</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight">
+          <td>Deposit (L1 → L2)</td>
+          <td>Funds are made available on zkSync Era after confirmations</td>
+          <td>Wallet stays on Ethereum, user thinks funds are missing</td>
+        </tr>
+        <tr>
+          <td>Withdraw (L2 → L1)</td>
+          <td>Requires finality/processing before funds arrive on Ethereum</td>
+          <td>Assuming it’s instant; not keeping ETH for L1 gas</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      <strong>Rule:</strong> every bridge action has two proofs: origin-chain tx and destination-chain state. Verify both.
+    </div>
+  </section>
+
+  <section class="card" id="fees">
+    <h2>zkSync Bridge Fees: What You Pay (and the Costs People Forget)</h2>
+    <p>
+      With the <strong>zkSync Bridge</strong>, your real total cost usually includes:
+      (1) Ethereum gas for L1 actions, (2) zkSync Era gas for L2 actions, and (3) any bridge-related execution costs.
+      For small transfers, L1 gas can dominate.
+    </p>
+
+    <ul>
+      <li><strong>L1 gas (Ethereum):</strong> approvals, deposits, and some withdrawal-related steps.</li>
+      <li><strong>L2 gas (zkSync Era):</strong> transfers, swaps, approvals on zkSync Era.</li>
+      <li><strong>Operational buffer:</strong> keep extra ETH for retries (approve, resend, revoke, withdraw finalize).</li>
+    </ul>
+
+    <div class="note">
+      <strong>Practical tip:</strong> “cheap L2” doesn’t remove “expensive L1”. Plan for L1 gas if you will withdraw later.
+    </div>
+  </section>
+
+  <section class="card" id="wallet">
+    <h2>zkSync Bridge Wallet Setup: RPC, Chain ID, Currency, Explorer</h2>
+    <p>
+      Set up <strong>zkSync Era Mainnet</strong> using official network details. This prevents wrong-chain deposits and broken explorer links.
+    </p>
+
+    <table aria-label="zkSync Era network parameters">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Value</th>
+          <th>Why it matters for zkSync Bridge</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight">
+          <td>Network name</td>
+          <td>zkSync Era Mainnet</td>
+          <td>So you don’t confuse networks</td>
+        </tr>
+        <tr>
+          <td>RPC URL</td>
+          <td><span class="mono">https://mainnet.era.zksync.io</span></td>
+          <td>Stable endpoint used in official docs</td>
+        </tr>
+        <tr>
+          <td>Chain ID</td>
+          <td><span class="mono">324</span></td>
+          <td>Critical for correct routing</td>
+        </tr>
+        <tr>
+          <td>Currency symbol</td>
+          <td>ETH</td>
+          <td>Gas token for zkSync Era</td>
+        </tr>
+        <tr>
+          <td>Block explorer</td>
+          <td><span class="mono">https://explorer.zksync.io</span></td>
+          <td>Verification source of truth</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      <strong>Safety:</strong> don’t copy RPC settings from random lists. Use official zkSync docs and the official explorer.
+    </div>
+  </section>
+
+  <section class="card" id="finality">
+    <h2>zkSync Bridge Finality &amp; Withdrawal Delay: How Long Does a zkSync Bridge Withdrawal Take?</h2>
+    <p>
+      <strong>zkSync Bridge</strong> withdrawals (L2 → L1) are not “instant”. They depend on batch finalization and Ethereum verification.
+      Official zkSync docs describe finality on the order of hours and note that finalization timing depends on network conditions,
+      proof generation, and batch aggregation behavior.
+    </p>
+
+    <div class="callout-grid">
+      <div class="mini">
+        <h3>What you should expect</h3>
+        <p class="muted">
+          Treat withdrawals as a timed process, not a single click. If you need instant liquidity, plan alternatives before depositing.
+        </p>
+        <div class="kpi-badges">
+          <span>Time-based</span><span>Batch finality</span><span>L1 verification</span>
+        </div>
+      </div>
+      <div class="mini">
+        <h3>Why timing varies</h3>
+        <p class="muted">
+          Finality depends on proof generation and Ethereum execution windows. During congestion, timelines may extend.
+        </p>
+        <div class="kpi-badges">
+          <span>Network load</span><span>Proof time</span><span>Aggregation</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>Operational rule:</strong> don’t start a withdrawal when you “must have” funds within minutes. Withdrawals are scheduling, not panic.
+    </div>
+  </section>
+
+  <section class="card" id="verify">
+    <h2>zkSync Bridge Verification: Explorers and Checks (Deposit/Withdraw)</h2>
+    <p>
+      If anything looks wrong in the <strong>zkSync Bridge</strong>, verify with explorers first.
+      For zkSync Era, the primary official explorer is the zkSync Era Block Explorer.
+    </p>
+
+    <div class="grid-2">
+      <div class="mini">
+        <h3>zkSync Era Block Explorer</h3>
+        <p class="muted">
+          Check tx status, token transfers, contract logs.
+          <br>
+          <a href="https://explorer.zksync.io/" target="_blank" rel="noopener nofollow">Open zkSync Explorer</a>
+        </p>
+      </div>
+      <div class="mini">
+        <h3>Ethereum Explorer (Etherscan)</h3>
+        <p class="muted">
+          For deposit approvals, L1 deposit tx, and withdrawal finalization steps—verify on Ethereum.
+        </p>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:1rem;">
+      <strong>Fast debug:</strong> address → token transfers → confirm chain (zkSync vs Ethereum) → confirm token contract → confirm final status.
+    </div>
+  </section>
+
+  <section class="card" id="best-practices">
+    <h2>zkSync Bridge Best Practices: Security, Approvals, and Hygiene</h2>
+    <ul>
+      <li><strong>Use bookmarks</strong> for the official zkSync Bridge and official docs (avoid ads and clones).</li>
+      <li><strong>Test deposit first</strong> on new wallets/devices/browsers.</li>
+      <li><strong>Wallet separation:</strong> vault (hardware) vs daily dApp wallet.</li>
+      <li><strong>Minimal approvals:</strong> avoid unlimited allowances when possible; revoke stale approvals.</li>
+      <li><strong>Keep buffers:</strong> ETH for L1 gas and ETH for zkSync Era gas (plus retries).</li>
+      <li><strong>Explorer-first mindset:</strong> UI ≠ truth; explorers ≈ truth.</li>
+    </ul>
+
+    <div class="note">
+      <strong>Most avoidable loss:</strong> malicious approvals + fake sites. Slow down and verify domain + contract addresses.
+    </div>
+  </section>
+
+  <section class="card" id="troubleshooting">
+    <h2>zkSync Bridge Troubleshooting: Common Issues and Fixes</h2>
+
+    <h3>“Funds missing after zkSync Bridge deposit”</h3>
+    <ul>
+      <li>Switch your wallet to <strong>zkSync Era</strong> network and refresh.</li>
+      <li>Check your address on the zkSync explorer; confirm the deposit tx exists and succeeded.</li>
+      <li>If tokens don’t appear, verify the token contract and add the token manually (only if verified on explorer).</li>
+    </ul>
+
+    <h3>“Withdrawal is pending / not received on Ethereum”</h3>
+    <ul>
+      <li>Confirm the withdrawal request on zkSync explorer.</li>
+      <li>Understand finality/processing time; withdrawals can take hours depending on conditions.</li>
+      <li>Make sure you still have ETH on Ethereum for any finalize/execution costs if required by your flow.</li>
+    </ul>
+
+    <h3>“Transaction shows success on explorer but wallet is wrong”</h3>
+    <ul>
+      <li>It’s usually RPC/UI caching. Switch RPC, reconnect wallet, clear site data, or try another browser.</li>
+      <li>Trust explorer data over wallet UI in the moment.</li>
+    </ul>
+
+    <div class="note">
+      <strong>Golden rule:</strong> if explorer says “success”, your funds are not “gone” — it’s almost always a chain/account/UI mismatch.
+    </div>
+  </section>
+
+  <section class="eeat" id="eeat" aria-labelledby="eeat-title">
+    <h2 id="eeat-title">zkSync Bridge Authoritative Sources &amp; References (EEAT)</h2>
+    <p>Use these official and high-quality sources for zkSync Bridge verification and accurate network settings:</p>
+
+    <h3>Official zkSync Bridge / Portal</h3>
+    <ul>
+      <li><a href="https://portal.zksync.io/bridge/" target="_blank" rel="noopener nofollow">zkSync Portal — Bridge</a></li>
+      <li><a href="https://bridge.zksync.io/" target="_blank" rel="noopener nofollow">zkSync Bridge (alternate entry)</a></li>
+      <li><a href="https://zksync.io/" target="_blank" rel="noopener nofollow">zkSync — Official Site</a></li>
+    </ul>
+
+    <h3>Official zkSync Docs (Network + Finality)</h3>
+    <ul>
+      <li><a href="https://docs.zksync.io/zksync-network/zksync-era/network-details" target="_blank" rel="noopener nofollow">Network details (RPC, Chain ID, Explorer)</a></li>
+      <li><a href="https://docs.zksync.io/zksync-protocol/rollup/finality" target="_blank" rel="noopener nofollow">Finality (how long until L1 verification)</a></li>
+      <li><a href="https://docs.zksync.io/zksync-protocol/security/withdrawal-delay" target="_blank" rel="noopener nofollow">Withdrawal delay (security timing)</a></li>
+      <li><a href="https://docs.zksync.io/zksync-network/tooling/block-explorers" target="_blank" rel="noopener nofollow">Block explorers (official)</a></li>
+    </ul>
+
+    <h3>Explorers</h3>
+    <ul>
+      <li><a href="https://explorer.zksync.io/" target="_blank" rel="noopener nofollow">zkSync Era Block Explorer</a></li>
+      <li><a href="https://zksync.blockscout.com/" target="_blank" rel="noopener nofollow">Blockscout (zkSync Era)</a></li>
+    </ul>
+
+    <h3>Security hygiene</h3>
+    <ul>
+      <li><a href="https://ethereum.org/guides/how-to-revoke-token-access/" target="_blank" rel="noopener nofollow">Ethereum.org — Revoke token approvals</a></li>
+      <li><a href="https://revoke.cash/" target="_blank" rel="noopener nofollow">Revoke.cash — Allowance management</a></li>
+      <li><a href="https://blog.openzeppelin.com/" target="_blank" rel="noopener nofollow">OpenZeppelin — Smart contract security</a></li>
+    </ul>
+
+    <div class="note">
+      <strong>About:</strong> Prepared by Crypto Finance Experts as a security-first knowledge base for <em>zkSync Bridge</em>.
+    </div>
+  </section>
+
+  <section class="card faq-section" aria-labelledby="faq">
+    <h2 id="faq">zkSync Bridge FAQ: The Most Asked Questions (2026)</h2>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f1" id="b1">
+        <h3>What is the official zkSync Bridge?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f1" class="faq-content" role="region" aria-labelledby="b1">
+        <p>The official <strong>zkSync Bridge</strong> is available via the zkSync Portal bridge. Always use bookmarked official URLs to avoid phishing.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f2" id="b2">
+        <h3>What network does the zkSync Bridge use?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f2" class="faq-content" role="region" aria-labelledby="b2">
+        <p>The zkSync Bridge commonly bridges between <strong>Ethereum</strong> and <strong>zkSync Era Mainnet</strong> (EVM). Confirm the target network in the UI before signing.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f3" id="b3">
+        <h3>What is the zkSync Era chain ID?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f3" class="faq-content" role="region" aria-labelledby="b3">
+        <p>The zkSync Era Mainnet chain ID is <strong>324</strong>. Only trust official docs for network parameters.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f4" id="b4">
+        <h3>What RPC should I use for zkSync Era?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f4" class="faq-content" role="region" aria-labelledby="b4">
+        <p>A common official RPC is <span class="inline-code">https://mainnet.era.zksync.io</span>. If your wallet lags, switch RPC (from a trusted provider list) and verify on explorers.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f5" id="b5">
+        <h3>What token pays gas on zkSync Era (for zkSync Bridge usage)?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f5" class="faq-content" role="region" aria-labelledby="b5">
+        <p><strong>ETH</strong> pays gas on zkSync Era. Keep a buffer so you can approve, swap, retry, revoke, and withdraw.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f6" id="b6">
+        <h3>Why are zkSync Bridge deposits “fast” but withdrawals “slow”?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f6" class="faq-content" role="region" aria-labelledby="b6">
+        <p>Deposits move you into L2 after confirmations. Withdrawals require L2 batch finality and L1 verification/execution steps—so timing is measured in hours, not minutes.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f7" id="b7">
+        <h3>How long does a zkSync Bridge withdrawal take?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f7" class="faq-content" role="region" aria-labelledby="b7">
+        <p>It depends on finality and batch processing. Official docs describe finality on the order of hours and note variability based on network activity and proof generation. Plan accordingly.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f8" id="b8">
+        <h3>Why don’t my funds show after using the zkSync Bridge?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f8" class="faq-content" role="region" aria-labelledby="b8">
+        <p>Most often you’re on the wrong network/account, or your wallet UI is lagging. Switch to zkSync Era, then verify your address on the zkSync explorer. If explorer shows success, your funds are there.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f9" id="b9">
+        <h3>What explorer should I use for zkSync Bridge verification?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f9" class="faq-content" role="region" aria-labelledby="b9">
+        <p>Use the official zkSync Era Block Explorer for L2 transactions and an Ethereum explorer (e.g., Etherscan) for L1 steps. Explorers are the source of truth.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f10" id="b10">
+        <h3>Is the zkSync Bridge safer than third-party bridges?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f10" class="faq-content" role="region" aria-labelledby="b10">
+        <p>The official zkSync Bridge reduces third-party surface and has clearer documentation and verification paths. But any bridge action has risks—phishing and approvals remain the top avoidable threats.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f11" id="b11">
+        <h3>Can I bridge to a different destination address with the zkSync Bridge?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f11" class="faq-content" role="region" aria-labelledby="b11">
+        <p>In most standard flows, you bridge to the connected wallet address. If you need funds on another address, bridge to yourself first, then transfer on the destination chain.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f12" id="b12">
+        <h3>What are the biggest risks when using the zkSync Bridge?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f12" class="faq-content" role="region" aria-labelledby="b12">
+        <p>Phishing (fake bridge sites), malicious approvals, wrong-chain mistakes, and running out of gas (ETH) for retries/withdrawals. Use bookmarks, minimal approvals, and keep buffers.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f13" id="b13">
+        <h3>How do I revoke token approvals on zkSync Era?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f13" class="faq-content" role="region" aria-labelledby="b13">
+        <p>Use an allowance tool like Revoke.cash and ensure you’re connected to zkSync Era. Revoke approvals you no longer need to reduce risk.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f14" id="b14">
+        <h3>My tx is “success” but the dApp still shows failed — what now?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f14" class="faq-content" role="region" aria-labelledby="b14">
+        <p>This is usually UI/RPC caching. Trust explorer status, reconnect wallet, switch RPC, refresh token lists, and retry only when you’re sure the action hasn’t already executed.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f15" id="b15">
+        <h3>What should I do before bridging a large amount with zkSync Bridge?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f15" class="faq-content" role="region" aria-labelledby="b15">
+        <p>Do a small test deposit, verify on explorers, confirm you can transact on zkSync Era, keep ETH buffers on both chains, and consider a hardware wallet for meaningful size.</p>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<footer class="container" role="contentinfo" style="padding:2rem 0; border-top:1px solid var(--line); margin-top:2rem">
+  <p class="muted">© 2026 zkSync Bridge Guide. Educational content with a security-first operational focus.</p>
+</footer>
+
+
+
+
+
+</body></html>
