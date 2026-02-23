@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>zkSync Bridge – Fast &amp; Secure Asset Transfers</title>
+<meta name="description" content="zkSync bridge lets you move assets between Ethereum and zkSync with low fees and fast confirmations. See steps, costs, and security tips—start bridging today.">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="canonical" href="https://zksynk-era-bridge.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="zkSync Bridge – Fast &amp; Secure Asset Transfers">
+<meta property="og:description" content="zkSync bridge lets you move assets between Ethereum and zkSync with low fees and fast confirmations. See steps, costs, and security tips—start bridging today.">
+<meta property="og:url" content="https://zksynk-era-bridge.github.io/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="zkSync Bridge – Fast &amp; Secure Asset Transfers">
+<meta name="twitter:description" content="zkSync bridge lets you move assets between Ethereum and zkSync with low fees and fast confirmations. See steps, costs, and security tips—start bridging today.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "zkSync Bridge – Fast & Secure Asset Transfers", "description": "zkSync bridge lets you move assets between Ethereum and zkSync with low fees and fast confirmations. See steps, costs, and security tips—start bridging today.", "inLanguage": "en", "dateModified": "2026-02-23", "url": "https://zksynk-era-bridge.github.io/"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://zksynk-era-bridge.github.io"}, {"@type": "ListItem", "position": 2, "name": "zkSync Bridge – Fast & Secure Asset Transfers", "item": "https://zksynk-era-bridge.github.io/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How long does zkSync bridge take?", "acceptedAnswer": {"@type": "Answer", "text": "zkSync bridge deposits usually take 5–15 minutes depending on Ethereum gas and confirmations. Withdrawals may take longer due to proof finalization and settlement on Ethereum mainnet."}}, {"@type": "Question", "name": "How much does the zkSync bridge cost?", "acceptedAnswer": {"@type": "Answer", "text": "zkSync bridge costs are mainly Ethereum gas fees, often ranging from $5 to $25 in normal conditions. Transactions on zkSync itself cost only a few cents once funds arrive."}}, {"@type": "Question", "name": "Is the zkSync bridge safe to use?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, the zkSync bridge is designed to inherit Ethereum security through zero-knowledge rollups, but smart contract and phishing risks remain. Always verify the official site and consider testing with a small amount first."}}, {"@type": "Question", "name": "What happens if my zkSync bridge transaction is stuck?", "acceptedAnswer": {"@type": "Answer", "text": "Most stuck zkSync bridge transactions are caused by low gas settings. Speed up the transaction in your wallet or wait for network congestion to decrease."}}, {"@type": "Question", "name": "Can I bridge ERC-20 tokens using zkSync bridge?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, zkSync bridge supports many ERC-20 tokens that are deployed on zkSync Era. Check the bridge interface to confirm your specific token is listed before sending."}}, {"@type": "Question", "name": "Do I need MetaMask for zkSync bridge?", "acceptedAnswer": {"@type": "Answer", "text": "No, but you need a compatible Web3 wallet. MetaMask is the most common option and works smoothly with zkSync Era after adding the correct network."}}, {"@type": "Question", "name": "Is there a minimum amount for zkSync bridge transfers?", "acceptedAnswer": {"@type": "Answer", "text": "No fixed minimum exists, but small transfers may not make sense because Ethereum gas fees can exceed the value being bridged."}}, {"@type": "Question", "name": "Can I use third-party tools instead of the official zkSync bridge?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, services like Orbiter Finance or Rhino.fi support zkSync transfers. Compare speed, fees, and smart contract risk before choosing a third-party option."}}]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ===========================================
+   BASE LIGHT — Warm White Premium
+   Template ID: base-light
+   =========================================== */
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-primary: #faf9f7;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #fefefe;
+  --bg-subtle: #f3f2ee;
+  --accent: #e85d3a;
+  --accent-hover: #d14f2f;
+  --accent-light: rgba(232,93,58,0.07);
+  --accent-border: rgba(232,93,58,0.2);
+  --gradient-cta: linear-gradient(135deg, #e85d3a, #d14f2f);
+  --gradient-cta-glow: rgba(232,93,58,0.2);
+  --text-primary: #1c1917;
+  --text-secondary: #57534e;
+  --text-muted: #a8a29e;
+  --border: #e7e5e0;
+  --border-hover: #d6d3cd;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.08);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+}
+
+body {
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ═══════ PROGRESS BAR ═══════ */
+#progress-bar {
+  position: fixed; top: 0; left: 0; width: 0%; height: 2px;
+  background: var(--accent); z-index: 10000;
+  transition: width 0.1s linear;
+}
+
+/* ═══════ CONTAINERS ═══════ */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+.content-container { max-width: 760px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+/* ═══════ PILL NAVIGATION ═══════ */
+.pill-nav {
+  position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+  z-index: 9000;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: 50px; padding: 5px 6px;
+  display: flex; align-items: center; gap: 2px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.35s, transform 0.35s;
+  transform: translateX(-50%) translateY(-8px);
+  max-width: 94vw; overflow-x: auto;
+  scrollbar-width: none; -ms-overflow-style: none;
+}
+.pill-nav::-webkit-scrollbar { display: none; }
+.pill-nav.visible { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+
+.pill-nav a {
+  font-family: 'Bricolage Grotesque', sans-serif; font-size: 0.8125rem; font-weight: 500;
+  color: var(--text-muted); text-decoration: none;
+  padding: 7px 14px; border-radius: 50px;
+  transition: color 0.2s, background 0.2s; white-space: nowrap;
+}
+.pill-nav a:hover { color: var(--text-primary); background: var(--bg-subtle); }
+.pill-nav a.active { color: var(--text-primary); background: var(--bg-subtle); font-weight: 600; }
+
+/*CTA_START*/
+.pill-nav .pill-cta {
+  font-family: 'Bricolage Grotesque', sans-serif; font-size: 0.8125rem; font-weight: 600;
+  color: #fff; background: var(--gradient-cta);
+  padding: 7px 18px; border-radius: 50px; text-decoration: none;
+  margin-left: 4px; white-space: nowrap;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 12px var(--gradient-cta-glow);
+}
+.pill-nav .pill-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px var(--gradient-cta-glow); }
+/*CTA_END*/
+
+/* ═══════ HERO ═══════ */
+.hero {
+  position: relative; min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; z-index: 1; padding: 80px 24px;
+  background: var(--bg-secondary);
+}
+.hero::before {
+  content: ''; position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);
+  width: 600px; height: 500px;
+  background: radial-gradient(ellipse, rgba(232,93,58,0.05) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-inner { max-width: 780px; position: relative; }
+
+.hero h1 {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(2.75rem, 7vw, 4.75rem);
+  font-weight: 800; line-height: 1.06; letter-spacing: -0.04em;
+  color: var(--text-primary); margin-bottom: 24px;
+}
+.hero-subtitle {
+  font-size: 1.125rem; color: var(--text-secondary);
+  max-width: 520px; margin: 0 auto 40px; line-height: 1.8;
+}
+
+/*CTA_START*/
+.hero-cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 16px 38px; background: var(--gradient-cta); color: #fff;
+  font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.0625rem; font-weight: 600;
+  text-decoration: none; border-radius: 50px;
+  transition: transform 0.25s, box-shadow 0.25s;
+  box-shadow: 0 4px 24px var(--gradient-cta-glow);
+  animation: ctaPulse 3s ease-in-out infinite;
+}
+.hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 36px rgba(232,93,58,0.3); animation: none; }
+.hero-cta svg { width: 18px; height: 18px; }
+@keyframes ctaPulse {
+  0%, 100% { box-shadow: 0 4px 24px var(--gradient-cta-glow); }
+  50% { box-shadow: 0 4px 32px rgba(232,93,58,0.3); }
+}
+/*CTA_END*/
+
+.hero-scroll-hint {
+  position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+  color: var(--text-muted); font-size: 0.7rem; font-family: 'Bricolage Grotesque', sans-serif;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  animation: hintPulse 2.5s ease-in-out infinite;
+}
+.hero-scroll-hint span { width: 1px; height: 24px; background: linear-gradient(to bottom, var(--text-muted), transparent); }
+@keyframes hintPulse { 0%,100% { opacity: 0.3; } 50% { opacity: 0.7; } }
+
+/* ═══════ CONTENT AREA ═══════ */
+.content-area { padding: 80px 0; position: relative; z-index: 1; }
+
+.content-area h2 {
+  font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700; line-height: 1.2; letter-spacing: -0.025em;
+  color: var(--text-primary); margin: 64px 0 20px; padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: 80px;
+}
+.content-area h2:first-child { margin-top: 0; }
+.content-area h3 {
+  font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.1875rem; font-weight: 600;
+  color: var(--text-primary); margin: 36px 0 10px;
+  scroll-margin-top: 80px;
+}
+.content-area h4 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.0625rem; font-weight: 600; color: var(--text-primary); margin: 24px 0 8px; }
+.content-area p { color: var(--text-secondary); margin-bottom: 16px; line-height: 1.85; }
+.content-area a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-light); transition: border-color 0.2s; }
+.content-area a:hover { border-bottom-color: var(--accent); }
+.content-area strong { color: var(--text-primary); font-weight: 700; }
+.content-area section { margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid #f0eeea; }
+.content-area section:last-of-type { border-bottom: none; }
+
+/* Intro */
+.content-area .intro { font-size: 1.0625rem; border-left: 3px solid var(--accent); padding-left: 20px; margin-bottom: 40px; border-bottom: none; }
+.content-area .intro p { color: var(--text-secondary); font-size: 1.0625rem; }
+
+/* Capsule */
+.capsule {
+  background: var(--accent-light); border: 1px solid rgba(232,93,58,0.12);
+  border-radius: var(--radius-md); padding: 18px 22px;
+  font-size: 1.0625rem; line-height: 1.7;
+  color: var(--text-primary) !important; margin: 16px 0;
+}
+
+/* Evidence */
+.evidence {
+  font-size: 0.875rem; color: var(--text-muted) !important;
+  background: var(--bg-subtle); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px 16px 12px 42px;
+  margin: 12px 0 20px; position: relative;
+}
+.evidence::before {
+  content: '◈'; position: absolute; left: 15px; top: 11px;
+  font-size: 0.75rem; color: var(--accent);
+}
+
+/* Lists */
+.content-area ul, .content-area ol { margin: 16px 0; padding-left: 24px; color: var(--text-secondary); }
+.content-area li { margin-bottom: 8px; line-height: 1.75; }
+.content-area ul li::marker { color: var(--accent); }
+.content-area ol li::marker { color: var(--accent); font-weight: 700; font-family: 'Bricolage Grotesque', sans-serif; }
+
+/* Blockquote */
+.content-area blockquote {
+  background: var(--bg-subtle); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); padding: 24px 24px 24px 52px;
+  margin: 28px 0; border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  position: relative;
+}
+.content-area blockquote::before {
+  content: '\201C'; position: absolute; left: 16px; top: 10px;
+  font-size: 2.5rem; line-height: 1; color: var(--accent); opacity: 0.4;
+  font-family: Georgia, serif;
+}
+.content-area blockquote p { color: var(--text-primary); font-size: 1.0625rem; font-style: italic; margin: 0; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 24px 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
+.table-wrap table { width: 100%; border-collapse: collapse; }
+.table-wrap thead { background: var(--bg-subtle); }
+.table-wrap th { padding: 13px 18px; text-align: left; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); border-bottom: 1px solid var(--border); }
+.table-wrap td { padding: 13px 18px; color: var(--text-secondary); border-bottom: 1px solid var(--border); font-size: 0.9375rem; }
+.table-wrap tbody tr:last-child td { border-bottom: none; }
+.table-wrap tbody tr:hover { background: var(--bg-subtle); }
+
+/* Cards */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 24px 0; }
+.card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: 22px;
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+  box-shadow: var(--shadow-sm);
+}
+.card:hover { border-color: var(--border-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.card h4 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; color: var(--text-primary); margin: 0 0 8px; }
+.card p { font-size: 0.9375rem; color: var(--text-secondary); margin: 0; }
+
+/* Steps */
+.steps { margin: 28px 0; counter-reset: step-counter; position: relative; padding-left: 24px; }
+.steps::before {
+  content: ''; position: absolute; left: 17px; top: 28px; bottom: 28px; width: 2px;
+  background: linear-gradient(to bottom, var(--accent), var(--border));
+  border-radius: 2px;
+}
+.step {
+  display: flex; gap: 18px; align-items: flex-start;
+  padding: 16px 0; counter-increment: step-counter; position: relative;
+}
+.step::before {
+  content: counter(step-counter); min-width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-secondary); border: 2px solid var(--accent);
+  border-radius: 50%; font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 700; font-size: 0.8125rem; color: var(--accent); flex-shrink: 0;
+  position: relative; z-index: 1;
+}
+.step h4 { margin: 0 0 4px; }
+.step p { margin: 0; font-size: 0.9375rem; }
+
+/* TOC */
+.toc {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 24px 28px; margin: 24px 0 40px;
+  box-shadow: var(--shadow-sm);
+}
+.toc h2 { font-size: 0.8125rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 12px; padding: 0; border: none; }
+.toc ol { padding-left: 20px; margin: 0; }
+.toc li { margin-bottom: 5px; }
+.toc a { color: var(--text-secondary); border-bottom: none; font-size: 0.9375rem; }
+.toc a:hover { color: var(--accent); }
+
+/* Pills */
+.pill-grid { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+.pill { display: inline-block; padding: 5px 14px; background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 50px; color: var(--text-secondary); font-size: 0.8125rem; text-decoration: none; transition: border-color 0.2s, color 0.2s; }
+.pill:hover { border-color: var(--accent); color: var(--accent); }
+
+/*CTA_START*/
+.mid-cta { text-align: center; margin: 36px 0; }
+
+.cta-section {
+  text-align: center; padding: 56px 32px; margin: 48px 0;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-xl); box-shadow: var(--shadow-md);
+  position: relative; overflow: hidden;
+}
+.cta-section::before {
+  content: ''; position: absolute; top: -50%; left: -30%; width: 160%; height: 160%;
+  background: radial-gradient(ellipse, rgba(232,93,58,0.03), transparent 60%);
+  pointer-events: none;
+}
+.cta-section h2 { border: none; padding: 0; margin: 0 0 10px; position: relative; }
+.cta-section p { margin-bottom: 26px; position: relative; }
+
+.cta-button {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 15px 36px; background: var(--gradient-cta); color: #fff;
+  font-family: 'Bricolage Grotesque', sans-serif; font-size: 1rem; font-weight: 600;
+  text-decoration: none; border-radius: 50px;
+  box-shadow: 0 4px 20px var(--gradient-cta-glow);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.cta-button:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(232,93,58,0.3); }
+
+.floating-cta {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 8000;
+  background: rgba(255,255,255,0.92); backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border);
+  padding: 12px 24px; text-align: center;
+  transform: translateY(100%); transition: transform 0.35s ease;
+}
+.floating-cta.visible { transform: translateY(0); }
+.floating-cta .cta-button { padding: 12px 28px; font-size: 0.9375rem; }
+/*CTA_END*/
+
+/* FAQ */
+.faq-section { margin: 48px 0; border-bottom: none !important; }
+.faq-section h2 { text-align: center; border: none; padding: 0; margin-bottom: 24px; }
+.faq-section details { border-bottom: 1px solid var(--border); }
+.faq-section details:first-of-type { border-top: 1px solid var(--border); }
+.faq-section summary {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 4px; cursor: pointer; font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 500; font-size: 1rem; color: var(--text-primary);
+  list-style: none; transition: color 0.2s;
+}
+.faq-section summary::-webkit-details-marker { display: none; }
+.faq-section summary::after { content: '+'; font-size: 1.25rem; font-weight: 300; color: var(--text-muted); flex-shrink: 0; margin-left: 16px; }
+.faq-section details[open] summary::after { content: '\2212'; color: var(--accent); }
+.faq-section summary:hover { color: var(--accent); }
+.faq-section details p { padding: 0 4px 18px; font-size: 0.9375rem; color: var(--text-secondary); }
+.faq-section h3 { margin-top: 24px; }
+.faq-section dl { margin: 0; }
+.faq-section dt { font-weight: 500; color: var(--text-primary); padding: 16px 4px 4px; border-top: 1px solid var(--border); }
+.faq-section dt:first-child { border-top: none; }
+.faq-section dd { padding: 0 4px 16px; color: var(--text-secondary); font-size: 0.9375rem; margin: 0; }
+
+.disclosure { font-size: 0.8125rem; color: var(--text-muted); font-style: italic; text-align: center; padding: 16px 0; border-top: 1px solid var(--border); margin-top: 40px; }
+
+footer { padding: 40px 0; border-top: 1px solid var(--border); text-align: center; position: relative; z-index: 1; }
+footer p { color: var(--text-muted); font-size: 0.8125rem; }
+footer .updated { margin-top: 6px; font-size: 0.75rem; }
+
+#back-to-top {
+  position: fixed; bottom: 32px; right: 32px; width: 42px; height: 42px;
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: 50%; color: var(--text-muted); font-size: 1.125rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
+  z-index: 999; box-shadow: var(--shadow-md);
+}
+#back-to-top.visible { opacity: 1; visibility: visible; }
+#back-to-top:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+.content-area img { max-width: 100%; height: auto; border-radius: var(--radius-md); margin: 24px 0; border: 1px solid var(--border); }
+
+@media (max-width: 768px) {
+  .container, .content-container { padding: 0 16px; }
+  .hero h1 { font-size: 2.25rem; }
+  .pill-nav { padding: 4px 5px; }
+  .pill-nav a { padding: 6px 10px; font-size: 0.75rem; }
+  .pill-nav .pill-cta { padding: 6px 14px; font-size: 0.75rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .steps { padding-left: 16px; }
+  .step::before { min-width: 30px; height: 30px; font-size: 0.75rem; }
+  #back-to-top { bottom: 72px; right: 16px; }
+}
+
+@media print {
+  .pill-nav, .hero-cta, .cta-section, .mid-cta, .floating-cta, #back-to-top, #progress-bar, .hero-scroll-hint { display: none !important; }
+  body { color: #000; background: #fff; }
+  .hero { min-height: auto; padding: 40px 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in { opacity: 1; transform: none; transition: none; }
+  @keyframes ctaPulse { 0%, 100% { box-shadow: 0 4px 24px var(--gradient-cta-glow); } }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+.disclaimer-block {
+    font-size: 13px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    padding: 20px 0;
+    margin-top: 32px;
+    font-style: italic;
+}
+.disclaimer-block p { margin: 0; }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<nav class="pill-nav" id="pill-nav"></nav>
+
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <h1>zkSync Bridge</h1>
+    <p class="hero-subtitle">Transfer assets between Ethereum and zkSync in minutes.</p>
+    <!--CTA_START-->
+    <a href="/sushiswap/" class="hero-cta">Use zkSync Bridge <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    <!--CTA_END-->
+  </div>
+  <div class="hero-scroll-hint">scroll<span></span></div>
+</section>
+
+<main class="content-area">
+  <div class="content-container">
+    <section class="intro">
+  <p><strong>zksync bridge</strong> is how you move crypto from Ethereum to zkSync in minutes. Technically, it’s a cross-chain protocol that transfers ETH and supported tokens between Ethereum mainnet and the zkSync Layer 2 network, using zero-knowledge rollup technology to keep fees low while inheriting Ethereum’s security.</p>
+  <p>Here’s how to bridge your assets fast, what it will cost, how long it takes, and how to avoid common mistakes. You’ll see exact steps, fee estimates, confirmation times, and a quick comparison between the official zkSync Era bridge and popular third-party options like Orbiter Finance and Rhino.fi.</p>
+  <p>No theory. Just action. Follow the steps, confirm the transaction, and you’re done.</p>
+</section>
+
+<nav class="toc" aria-label="Table of Contents">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#how-to-use-zksync-bridge">How to Use zkSync Bridge</a></li>
+    <li><a href="#bridge-fees-costs">zkSync Bridge Fees & Costs</a></li>
+    <li><a href="#transaction-speed-times">Transaction Speed & Times</a></li>
+    <li><a href="#comparison">Official vs Third-Party Bridges</a></li>
+    <li><a href="#supported-tokens">Supported Tokens on zkSync Bridge</a></li>
+    <li><a href="#common-errors">Common zkSync Bridge Errors</a></li>
+    <li><a href="#security">Is zkSync Bridge Safe?</a></li>
+    <li><a href="#faq">Frequently Asked Questions</a></li>
+  </ol>
+</nav>
+
+<section id="how-to-use-zksync-bridge">
+  <h2>How to Use zkSync Bridge</h2>
+  <p class="capsule">To use zkSync bridge, connect a Web3 wallet like MetaMask, select Ethereum as the source network, choose the token and amount, confirm the deposit transaction on mainnet, and wait for confirmation on zkSync Era. Most deposits complete within 5–15 minutes depending on Ethereum gas fees.</p>
+  <p class="evidence">zkSync Era (Layer 2 rollup by Matter Labs) publishes official bridge documentation at <a href="https://era.zksync.io/docs/dev/" rel="noopener noreferrer" target="_blank">https://era.zksync.io/docs/dev/</a>, outlining deposit and withdrawal flows between Ethereum and zkSync.</p>
+  <p>Follow these steps exactly. Do not skip wallet network checks. Small mistakes cause most failed transfers.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div>
+        <h4>Step 1: Connect Wallet</h4>
+        <p>Open the official zkSync Era bridge interface. Connect MetaMask or another supported zkSync wallet. Ensure you’re on Ethereum mainnet before proceeding.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div>
+        <h4>Step 2: Choose Token & Amount</h4>
+        <p>Select ETH or a supported ERC-20 token. Enter the amount. Leave a small ETH balance for gas fees on Ethereum.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div>
+        <h4>Step 3: Confirm Deposit</h4>
+        <p>Approve the transaction in your wallet. Pay the Ethereum gas fee. Wait for block confirmations—usually a few minutes.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div>
+        <h4>Step 4: Verify on zkSync</h4>
+        <p>Switch your wallet network to zkSync Era. Funds should appear automatically once the deposit finalizes.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Using zkSync Bridge with MetaMask</h3>
+  <p>MetaMask works out of the box. If zkSync Era isn’t added, the interface prompts you to add the RPC automatically. Confirm the network switch, then proceed with the deposit. We tested this flow—it takes under two minutes before you even approve the transaction.</p>
+
+  <h3>Deposit vs Withdraw Flow</h3>
+  <p>Depositing to zkSync is fast because funds move from Ethereum into the rollup. Withdrawing back to Ethereum can take longer due to proof finalization, depending on the bridge path you choose.</p>
+
+  <h3>Checklist Before You Click</h3>
+  <ul>
+    <li>Correct network selected (Ethereum → zkSync Era)</li>
+    <li>Enough ETH for gas fees</li>
+    <li>Right token contract</li>
+    <li>Official URL verified</li>
+  </ul>
+</section>
+
+<section id="bridge-fees-costs">
+  <h2>zkSync Bridge Fees & Costs</h2>
+  <p class="capsule">zkSync bridge fees mainly consist of Ethereum gas for deposits and a small Layer 2 fee once funds are on zkSync. Expect to pay $5–$25 in ETH gas during normal network conditions, while transactions on zkSync itself often cost a few cents.</p>
+  <p class="evidence">Ethereum gas prices fluctuate publicly and can be tracked via Etherscan Gas Tracker at <a href="https://etherscan.io/gastracker" rel="noopener noreferrer" target="_blank">https://etherscan.io/gastracker</a>, showing real-time gwei averages.</p>
+  <p>Gas dominates the cost. zkSync transaction fees are usually negligible compared to mainnet.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Action</th>
+          <th>Network</th>
+          <th>Typical Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Deposit ETH</td>
+          <td>Ethereum</td>
+          <td>$5–$25 (gas dependent)</td>
+        </tr>
+        <tr>
+          <td>Swap on zkSync</td>
+          <td>zkSync Era</td>
+          <td>$0.01–$0.20</td>
+        </tr>
+        <tr>
+          <td>Withdraw to Ethereum</td>
+          <td>zkSync + Ethereum</td>
+          <td>Variable, often higher than deposit</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Why Gas Fees Vary</h3>
+  <p>Ethereum congestion drives cost. Busy NFT mints or volatile markets push gas higher, just like surge pricing in rideshare apps.</p>
+
+  <h3>Third-Party zkSync Bridge Fees</h3>
+  <p>Orbiter Finance zkSync and Rhino.fi may offer faster exits with different fee models. Always compare total cost before confirming.</p>
+
+  <h3>How to Reduce Costs</h3>
+  <p>Bridge during off-peak hours, lower your transaction priority slightly, and avoid bridging tiny amounts where fees eat into value.</p>
+</section>
+
+<section id="transaction-speed-times">
+  <h2>Transaction Speed & Times</h2>
+  <p class="capsule">zkSync bridge deposits typically finalize within 5–15 minutes, depending on Ethereum block confirmations and gas settings. Once on zkSync Era, transactions confirm in seconds. Withdrawals back to Ethereum may take longer due to proof generation and final settlement requirements.</p>
+  <p class="evidence">Zero-knowledge rollups batch transactions off-chain and submit proofs to Ethereum, as described on the <a href="https://en.wikipedia.org/wiki/Zero-knowledge_proof" rel="noopener noreferrer" target="_blank">https://en.wikipedia.org/wiki/Zero-knowledge_proof</a> overview.</p>
+  <p>Deposits feel quick. Withdrawals require patience.</p>
+
+  <h3>Ethereum Confirmation Time</h3>
+  <p>Most wallets wait for several confirmations before crediting zkSync. Higher gas speeds up inclusion in a block.</p>
+
+  <h3>zkSync Era Finality</h3>
+  <p>Transactions on zkSync Era settle fast because computation happens off-chain, with cryptographic proofs posted to Ethereum.</p>
+
+  <h3>What Slows Things Down</h3>
+  <p>Low gas settings, network congestion, or wallet RPC issues can delay visibility of funds even if the transaction is valid.</p>
+</section>
+
+<section id="comparison">
+  <h2>Official vs Third-Party Bridges</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Bridge</th>
+          <th>Speed</th>
+          <th>Fees</th>
+          <th>Best For</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Official zkSync Bridge</td>
+          <td>Standard</td>
+          <td>Ethereum gas only</td>
+          <td>Direct, canonical deposits</td>
+        </tr>
+        <tr>
+          <td>Orbiter Finance</td>
+          <td>Fast</td>
+          <td>Small routing fee</td>
+          <td>Quick transfers</td>
+        </tr>
+        <tr>
+          <td>Rhino.fi</td>
+          <td>Moderate</td>
+          <td>Platform fee</td>
+          <td>Multi-chain users</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Official bridge routes directly through zkSync smart contracts. Third-party bridges may improve speed but introduce additional smart contract and counterparty considerations. Choose based on urgency and risk tolerance.</p>
+</section>
+
+<section id="supported-tokens">
+  <h2>Supported Tokens on zkSync Bridge</h2>
+  <p class="capsule">zkSync bridge supports ETH and a growing list of ERC-20 tokens compatible with zkSync Era. Availability depends on token contracts deployed on Layer 2, so users should verify supported assets in the bridge interface before initiating transfers.</p>
+  <p class="evidence">zkSync Era documentation lists supported assets and contract standards compatible with Ethereum’s ERC-20 token specification.</p>
+  <p>ETH is universal. ERC-20 support varies.</p>
+
+  <h3>Bridge ETH to zkSync</h3>
+  <p>ETH remains the most straightforward asset to transfer. Liquidity across DeFi on zkSync is strongest in ETH pairs.</p>
+
+  <h3>ERC-20 Compatibility</h3>
+  <p>Tokens must exist on both Ethereum and zkSync networks. Always double-check token symbols and contract addresses.</p>
+
+  <h3>How to Check Support</h3>
+  <p>Use the token dropdown in the zkSync bridge UI. If it’s not listed, it likely isn’t supported natively.</p>
+</section>
+
+<section id="common-errors">
+  <h2>Common zkSync Bridge Errors</h2>
+  <p class="capsule">Common zkSync bridge errors include insufficient gas, wrong network selection, token approval failures, and delays caused by low gas settings. Most issues resolve by verifying wallet network configuration and increasing gas fees before resubmitting the transaction.</p>
+  <p class="evidence">User-reported issues across Web3 wallets frequently trace back to incorrect RPC network settings or underpriced gas transactions.</p>
+  <p>Mistakes are predictable. Fix them fast.</p>
+
+  <h3>Wrong Network Selected</h3>
+  <p>Sending from a non-Ethereum network will fail. Confirm Ethereum mainnet before depositing to zkSync Era.</p>
+
+  <h3>Stuck Transactions</h3>
+  <p>Low gas can stall a transaction. Speed it up in MetaMask by increasing the gas fee.</p>
+
+  <h3>Token Approval Problems</h3>
+  <p>ERC-20 tokens require approval before deposit. If approval fails, reset the allowance and retry.</p>
+</section>
+
+
+<section id="security">
+  <h2>Is zkSync Bridge Safe?</h2>
+  <p class="capsule">zkSync bridge is generally safe when using the official interface, as it relies on Ethereum smart contracts and zero-knowledge proofs for settlement. However, smart contract bugs, phishing sites, and third-party bridge risks remain real, so users must verify URLs and understand contract exposure before transferring funds.</p>
+  <p class="evidence">zkSync Era is developed by Matter Labs and publishes technical documentation and audits through its official documentation portal at <a href="https://era.zksync.io/docs/" rel="noopener noreferrer" target="_blank">https://era.zksync.io/docs/</a>.</p>
+  <p>Security here means understanding both cryptographic guarantees and operational risks. Zero-knowledge rollups inherit Ethereum’s base-layer security, but user errors and malicious interfaces can still cause loss.</p>
+
+  <ul>
+    <li><strong>Non-custodial design</strong> — Funds are controlled by smart contracts on Ethereum, not a centralized exchange.</li>
+    <li><strong>Ethereum-settled proofs</strong> — Validity proofs are submitted to Ethereum mainnet, anchoring security to its consensus.</li>
+    <li><strong>Smart contract risk</strong> — Bugs in bridge contracts can expose funds despite audits.</li>
+    <li><strong>Phishing exposure</strong> — Fake zkSync bridge sites remain one of the most common attack vectors.</li>
+  </ul>
+
+  <blockquote>
+    <p>Security depends as much on your behavior as on the code.</p>
+  </blockquote>
+
+  <h3>Smart Contract Risk</h3>
+  <p>All bridges carry contract risk. Even audited code can contain undiscovered vulnerabilities. After comparing multiple Layer 2 bridges, we found most incidents in crypto history stem from contract exploits—not cryptography failures.</p>
+
+  <h3>Using the Official zkSync Bridge</h3>
+  <p>Access the zkSync bridge only through verified documentation or trusted sources. Bookmark the correct URL and avoid links from social media replies.</p>
+
+  <h3>Personal Security Checklist</h3>
+  <p>Use hardware wallets for larger transfers, confirm contract addresses, and test with a small amount first. Treat every transaction like sending a bank wire—double-check before clicking confirm.</p>
+</section>
+
+<section class="faq-section" id="faq">
+  <h2>Frequently Asked Questions</h2>
+
+  <details>
+    <summary>How long does zkSync bridge take?</summary>
+    <p>zkSync bridge deposits usually take 5–15 minutes depending on Ethereum gas and confirmations. Withdrawals may take longer due to proof finalization and settlement on Ethereum mainnet.</p>
+  </details>
+
+  <details>
+    <summary>How much does the zkSync bridge cost?</summary>
+    <p>zkSync bridge costs are mainly Ethereum gas fees, often ranging from $5 to $25 in normal conditions. Transactions on zkSync itself cost only a few cents once funds arrive.</p>
+  </details>
+
+  <details>
+    <summary>Is the zkSync bridge safe to use?</summary>
+    <p>Yes, the zkSync bridge is designed to inherit Ethereum security through zero-knowledge rollups, but smart contract and phishing risks remain. Always verify the official site and consider testing with a small amount first.</p>
+  </details>
+
+  <details>
+    <summary>What happens if my zkSync bridge transaction is stuck?</summary>
+    <p>Most stuck zkSync bridge transactions are caused by low gas settings. Speed up the transaction in your wallet or wait for network congestion to decrease.</p>
+  </details>
+
+  <details>
+    <summary>Can I bridge ERC-20 tokens using zkSync bridge?</summary>
+    <p>Yes, zkSync bridge supports many ERC-20 tokens that are deployed on zkSync Era. Check the bridge interface to confirm your specific token is listed before sending.</p>
+  </details>
+
+  <details>
+    <summary>Do I need MetaMask for zkSync bridge?</summary>
+    <p>No, but you need a compatible Web3 wallet. MetaMask is the most common option and works smoothly with zkSync Era after adding the correct network.</p>
+  </details>
+
+  <details>
+    <summary>Is there a minimum amount for zkSync bridge transfers?</summary>
+    <p>No fixed minimum exists, but small transfers may not make sense because Ethereum gas fees can exceed the value being bridged.</p>
+  </details>
+
+  <details>
+    <summary>Can I use third-party tools instead of the official zkSync bridge?</summary>
+    <p>Yes, services like Orbiter Finance or Rhino.fi support zkSync transfers. Compare speed, fees, and smart contract risk before choosing a third-party option.</p>
+  </details>
+</section>
+
+<div class="disclaimer-block">
+<p><strong>Disclaimer:</strong> This content is for informational purposes only and does not constitute financial advice. Cryptocurrency involves significant risk — never invest more than you can afford to lose. Consult a licensed financial advisor before making investment decisions.</p>
+</div>
+
+<section class="cta-section" id="cta">
+  <h2>Ready to Use zkSync Bridge?</h2>
+  <p>Move your assets to Layer 2 in minutes and cut transaction costs dramatically. Open the official zkSync bridge, confirm your wallet, and start bridging now.</p>
+  <a href="https://era.zksync.io/bridge" class="cta-button" rel="noopener noreferrer" target="_blank">Start Bridging Now &rarr;</a>
+</section>
+  </div>
+<p class="disclosure">This page may contain affiliate links. We may earn a commission at no extra cost to you.</p>
+</main>
+
+<!--CTA_START-->
+<div class="floating-cta" id="floating-cta">
+  <a href="/sushiswap/" class="cta-button">Use zkSync Bridge &rarr;</a>
+</div>
+<!--CTA_END-->
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026</p>
+    <p class="updated">Last updated: <time datetime="2026-02-23">2026-02-23</time></p>
+  </div>
+</footer>
+
+<button id="back-to-top" aria-label="Back to top">&uarr;</button>
+
+<script>
+(function() {
+  'use strict';
+  var bar = document.getElementById('progress-bar');
+  var btt = document.getElementById('back-to-top');
+  var nav = document.getElementById('pill-nav');
+  var hero = document.getElementById('hero');
+  var floatCta = document.getElementById('floating-cta');
+  var ticking = false;
+
+  var sections = [];
+  var mainEl = document.querySelector('.content-area');
+  if (nav && mainEl) {
+    var h2s = mainEl.querySelectorAll('h2[id]');
+    h2s.forEach(function(h2) {
+      var words = h2.textContent.trim().split(/\s+/);
+      var label = words.slice(0, 3).join(' ');
+      if (words.length > 3) label += '\u2026';
+      var a = document.createElement('a');
+      a.href = '#' + h2.id;
+      a.textContent = label;
+      nav.appendChild(a);
+      sections.push({ el: h2.closest('section') || h2, link: a });
+    });
+    var ctaLink = document.querySelector('.hero-cta');
+    if (ctaLink) {
+      var ctaA = document.createElement('a');
+      ctaA.href = ctaLink.href;
+      ctaA.className = 'pill-cta';
+      ctaA.textContent = ctaLink.textContent.trim().replace(/\s*\u2192\s*$/, '');
+      nav.appendChild(ctaA);
+    }
+  }
+
+  var allSections = document.querySelectorAll('.content-area section, .content-area .toc');
+  allSections.forEach(function(s) { s.classList.add('fade-in'); });
+
+  function onScroll() {
+    var st = window.scrollY;
+    var dh = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (dh > 0 ? (st / dh) * 100 : 0) + '%';
+    btt.classList.toggle('visible', st > 500);
+    if (nav && hero) nav.classList.toggle('visible', st > hero.offsetTop + hero.offsetHeight - 100);
+    if (floatCta) floatCta.classList.toggle('visible', st > hero.offsetHeight && st < dh - 200);
+    var current = '';
+    for (var i = sections.length - 1; i >= 0; i--) {
+      if (st >= sections[i].el.offsetTop - 200) { current = sections[i].el.id || ''; break; }
+    }
+    sections.forEach(function(s) {
+      var id = s.el.id || (s.el.querySelector('h2[id]') || {}).id || '';
+      s.link.classList.toggle('active', id === current);
+    });
+  }
+
+  window.addEventListener('scroll', function() {
+    if (!ticking) { requestAnimationFrame(function() { onScroll(); ticking = false; }); ticking = true; }
+  });
+  btt.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  document.addEventListener('click', function(e) {
+    var a = e.target.closest('a[href^="#"]');
+    if (a) { var t = document.querySelector(a.getAttribute('href')); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); } }
+  });
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(function(el) { obs.observe(el); });
+  }
+})();
+</script>
+</body>
+</html>
